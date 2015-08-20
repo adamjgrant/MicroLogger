@@ -5,6 +5,26 @@ block content
 
   p The button on the left will expect you to press the button on the right in three seconds.
   p Open your console to see test runner output.
-  button Press me first
+  button#first Press me first
   &nbsp;
-  button Press me second
+  button#second Press me second
+
+  h2 What happened?
+
+  p On the event listener for <strong>Button 1</strong> we registered a simple assertion
+
+  pre testRunner.waitForButton = new testRunner.Assert("button was pressed in less than 3 seconds", 3000);
+
+  p On the event listener for <strong>Button 2</strong> we simply made a call to the function we created from button 1.
+
+  pre testRunner.waitForButton.return()
+
+  p <code>waitForButton</code> is a custom name, you can create any name you want after <code>testRunner</code>
+
+  h1 Specs
+
+  p We can also bundle tests into specs. Let's use the same example but we want to see that the second button is pressed both less than 3 and less than 5 seconds.
+
+  button#third Press me first
+  &nbsp;
+  button#fourth Then press me
