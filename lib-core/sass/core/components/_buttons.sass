@@ -1,0 +1,166 @@
+=button-default($background-color: map-get($white, darker), $size: 1)
+  display: inline-block
+  cursor: pointer
+  text-decoration: none
+  color: map-get($black, light)
+  text-align: left
+  transition: box-shadow 0.15s
+  vertical-align: middle
+  user-select: none
+
+  &[disabled], &:disabled
+    color: rgba(0, 0, 0, 0.25)
+    pointer-events: none
+    cursor: not-allowed
+
+  &.menu-item
+    position: relative
+
+    ul
+      display: none
+
+    &:after
+      content: '+'
+      font-family: 'Kickstart', Kickstart
+      font-size: 0.65rem
+      display: inline-block
+      color: rgba(0, 0, 0, 0.3)
+
+  &:hover
+    box-shadow: 0px -2px 0px 0px rgba(0, 0, 0, 0.1) inset, 0px 2px 0px 0px rgba(255, 255, 255, 0.1) inset
+    text-decoration: none
+
+  &:active
+    box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.1) inset, 0px -2px 0px 0px rgba(255, 255, 255, 0.1) inset
+    text-decoration: none
+
+  +root-element($size: $size)
+  +button-size-default($size)
+  +button-color-default($background-color)
+
+  @content
+
+// Separated from main mixin for access by non-semantic library.
+
+=button-color-default($background-color)
+  background-color: $background-color
+  border-color: $background-color
+
+  &.open
+    background-color: darken($background-color, 5%)
+
+  @if lightness($background-color) > 75%
+    color: map-get($black, lighter)
+  @else
+    color: white
+
+  @if $background-color == map-get($colors, yellow)
+    color: map-get($black, lighter)
+
+  @if $background-color == transparent
+    color: map-get($black, lighter)
+
+=button-size-default($size)
+  padding: ($size * $size * map-get($rootElement, paddingV)) ($size * $size * map-get($rootElement, paddingH))
+  line-height: $size * $default-line-height
+  margin-bottom: 0
+  font-size: ($default-font-size) * $size
+  padding:
+    left: $size * $size * map-get($rootElement, paddingH)
+    right: $size * $size * map-get($rootElement, paddingH)
+
+  &.menu-item
+    &:after
+      font-size: $size * 0.85rem
+      margin-left: $size * $size * $space/4
+
+    &.open
+      ul
+        display: block
+
+    ul
+      +button-dropdown-menu
+
+      li
+        padding:
+          left: 0
+          right: 0
+        margin:
+          bottom: 0
+
+  + .button-dropdown + ul
+    // Button with dropdown
+    +button-dropdown-menu
+
+  &.button-dropdown
+    padding:
+      left: map-get($rootElement, paddingV) * $size * $size
+      right: map-get($rootElement, paddingV) * $size * $size
+
+=button-dropdown-menu
+  // Most of the styling actually comes from the global dropdown_menu
+  // styling, however this will provide some specifics for working
+  // with buttons.
+  margin-top: 5px
+  right: -$space
+  border: 1px solid map-get($white, darker)
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2)
+
+=button-group-default($background-color: map-get($white, darker), $size: 1)
+  list-style: none
+  padding: 0
+  margin:
+    bottom: 0
+    top: 0
+  display: flex
+  align-items: center
+  position: relative
+
+  > li
+    color: inherit
+
+    > a, > button, > input
+      color: inherit
+      +button($background-color, $size)
+      text-decoration: inherit
+      vertical-align: top
+
+    &:not(:first-child):not(:last-child):not(:only-child)
+      > a, > button, > input
+        border-radius: 0
+        border-left: 0
+        @if (lightness($background-color) < 75%)
+          border-right: 1px solid rgba(255, 255, 255, 0.1)
+        @else
+          border-right: 1px solid rgba(0, 0, 0, 0.1)
+
+    &:first-child:not(:only-child)
+      > a, > button, > input
+        border-top-right-radius: 0
+        border-bottom-right-radius: 0
+        @if (lightness($background-color) < 75%)
+          border-right: 1px solid rgba(255, 255, 255, 0.1)
+        @else
+          border-right: 1px solid rgba(0, 0, 0, 0.1)
+
+    &:last-child:not(:only-child)
+      > a, > button, > input
+        border-top-left-radius: 0
+        border-bottom-left-radius: 0
+        border-left: 0
+        
+
+    .button-dropdown
+
+      &:after
+        content: '+'
+        display: block
+        font-family: "Kickstart", Kickstart
+        color: rgba(0, 0, 0, 0.3)
+        font-size: 90%
+
+  > li > ul
+    +button-dropdown-menu
+    right: auto
+
+  @content

@@ -1,0 +1,112 @@
+label, legend
+  display: block
+  font-weight: normal
+  margin-bottom: $space/4
+
+=form-default($layout: 'none')
+  margin-bottom: $space
+
+  @if ($layout == 'horizontal')
+    +form-horizontal
+  @if ($layout == 'left')
+    +form-left
+
+  @content
+
+=input-styles
+  +root-element
+  margin: 0
+    bottom: 0
+  border: 1px solid #CCC
+  display: block
+  border-radius: 3px
+  max-width: 100%
+
+  // label + &
+  //   margin-top: ($space/5)
+
+  &:focus
+    outline: 0px
+    box-shadow: inset 0px 0px 0px 2px $primary-color
+
+  @content
+
++text-inputs
+  +input-styles
+
+input[disabled]
+  pointer-events: all
+  cursor: not-allowed
+  color: map-get($gray, light)
+
+textarea
+  +input-styles
+  width: 300px
+
+input[type="checkbox"],
+input[type="radio"]
+  display: inline-block
+  width: 14px
+  margin:
+    left: 1px
+    right: 5px
+
+select
+  +button
+  height: calc(#{$default-line-height} + #{2 * map-get($rootElement, paddingV)})
+  background-image: none
+
+=form-horizontal
+  display: inline-block
+
+  label, input
+    display: inline-block
+
+  @content
+
+=form-left
+  label
+    +root-element
+    padding:
+      right: 0
+      left: 0
+    display: inline-block
+    margin: 
+      top: 0
+      bottom: 0
+
+  @media screen and (min-width: $tablet)
+    label:not(.checkbox):not(.radio)
+      text-align: right
+
+  @content
+
+=form_group-default($layout: 'none')
+  display: block
+  margin-bottom: $space
+
+  @if $layout == 'horizontal'
+    display: inherit
+    margin:
+      right: $space/5
+
+    > *
+      display: inline-block
+      vertical-align: middle
+      margin-right: $space/5 
+
+  @content
+
+=field-colors($color)
+  label, p
+    color: $color
+
+  +text-inputs
+    border-color: $color
+
+  select
+    border-color: $color
+    background-color: $color
+
+  textarea
+    border-color: $color

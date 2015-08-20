@@ -1,0 +1,25 @@
+=status_bar
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  z-index: 2000 // Above modal
+  display: flex
+  pointer-events: none
+  transition: transform 0.25s
+  transform: translateY(0px)
+
+  &.hide
+    transform: translateY(-40px)
+
+  .status_bar-status
+    +label(map-get($colors, yellow))
+    color: black
+    text-align: center
+    margin: 5px auto
+    max-width: 300px
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15)
+    +fadeInDown
+    z-index: 1000
+
+  @content

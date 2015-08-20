@@ -1,0 +1,22 @@
+doctype html
+html(lang='en')
+  head
+
+    link(rel="stylesheet" href="./css/kickstart.css")
+    script(src="../../node_modules/mocha/mocha.js")
+    script(src="../../node_modules/chai/chai.js")
+
+  body
+    h1 Kickstart 3 Tests
+    p Use this page to run your Mocha tests via Phantom JS
+
+    footer
+      script.
+        mocha.setup('bdd');
+      script(src="../js/test.js")
+      script.
+        if (window.mochaPhantomJS) {
+          mochaPhantomJS.run();
+        } else {
+          mocha.run();
+        }

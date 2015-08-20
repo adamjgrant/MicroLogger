@@ -1,0 +1,118 @@
+=container-color-default($color: map-get($white, darker))
+  border-color: $color
+
+  header, footer, aside
+    background: $color
+
+    @if lightness($color) > 75%
+      color: map-get($black, lighter)
+    @else
+      color: white
+
+=container-default($color: map-get($white, darker))
+  +root-element
+  background: white
+  display: flex
+  flex-direction: column
+  flex-wrap: wrap
+
+  header, main, footer
+    +root-element
+    margin: (-1 * map-get($rootElement, paddingV)) - 1
+
+  header, footer
+    h1
+      +heading-xs
+
+    h2, h3, h4, h5, h6
+      +heading-xxs
+
+    h1, h2, h3, h4, h5, h6
+      margin-top: 0
+
+  header, footer
+    display: flex
+    align-items: center
+    justify-content: space-between
+
+    padding: 
+      left: $space/2
+      right: $space/2
+
+  header 
+    margin-bottom: map-get($rootElement, paddingV)
+    border-bottom-left-radius: 0px
+    border-bottom-right-radius: 0px
+
+    h1, h2, h3, h4, h5, h6
+      margin-bottom: 0
+
+      &:first-child
+        margin-top: 0
+
+  main
+    padding: $space/2
+
+  main
+    border-radius: 0px
+
+    + main
+      border-top-color: inherit
+      margin-top: 0
+
+  footer
+    margin-top: map-get($rootElement, paddingV)
+    border-top-left-radius: 0px
+    border-top-right-radius: 0px
+
+  +container-color-default($color)
+
+=thumbnail-content-default($breakpoint: $tablet)
+  display: block
+  overflow: hidden
+  margin-bottom: $space
+  align-items: flex-start
+
+  img, figure
+    margin-bottom: $space
+
+  h1
+    +heading-xs
+
+  @media screen and (min-width: $breakpoint)
+    display: flex
+
+    img, figure
+      flex-grow: 0
+      flex-shrink: 0
+
+    > :not(img):not(figure)
+      width: 100%
+
+      + img, + figure
+        margin-left: $space/2
+
+    > img, > figure
+      + :not(img):not(figure)
+        margin-left: $space/2
+        width: 100%
+
+  @content
+
+=thumbnail-default
+  +root-element
+  border: 1px solid map-get($white, darker)
+  display: inline-block
+  max-width: 100%
+
+  img
+    max-width: 100%
+
+  figcaption
+    font-size: 0.85rem
+
+  @content
+
+figure
+  margin: 0
+  padding: 0

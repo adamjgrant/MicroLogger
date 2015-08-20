@@ -1,0 +1,18 @@
+doctype html
+block variables
+  - var title = "Home"
+
+html(lang='en')
+  head
+    link(rel="stylesheet" href="/css/style.css")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no")
+    title My Website - #{title}
+  body
+    main.main
+      block content
+
+    footer.main
+      .wrapper
+        p Made by <a href="http://twitter.com/everythingdotio">Everything</a>
+
+    script(src="/js/script.js")

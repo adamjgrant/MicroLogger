@@ -1,0 +1,21 @@
+extends ../_layout
+
+block hero-title
+  h1 Page Generator
+
+block variables
+  - var showFooter = false
+  - var title = 'Page Generator'
+
+block menuVars
+  - var docCategory = "page-generator"
+
+block subMenuVars
+  - var subMenuItem = "page-generator"
+
+block documents
+  .if-semantic
+    .document
+      article.article.article-full
+        :markdown
+          # Page Generator

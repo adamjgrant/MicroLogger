@@ -1,0 +1,48 @@
+=text-inputs
+  input[type="date"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="email"],
+  input[type="month"],
+  input[type="number"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="search"],
+  input[type="text"],
+  input[type="time"],
+  input[type="url"],
+  input[type="week"]
+    @content
+
+=fadeInDown
+  animation-duration: 0.25s
+  animation-timing-function: ease
+  animation-fill-mode: both
+  animation-name: fadeInDown
+
+// Block, component, etc. selector shortcuts
+
+// Block
+=b($name)
+  [data-block="#{$name}"]
+    @content
+
+// Component
+=c($name)
+  [data-component="#{$name}"]
+    @content
+
+// Variant
+=v($name)
+  [data-variant="#{$variant}"]
+    @content
+
+// Page
+=page($controller: null, $action: null)
+  $selector: ''
+  @if $controller != null
+    $selector: "[data-controller='#{$controller}']"
+  @if $action != null
+    $selector: "#{$selector}[data-action='#{$action}']"
+  #{$selector}
+    @content

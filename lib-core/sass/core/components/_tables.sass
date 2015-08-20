@@ -1,0 +1,96 @@
+=table-default($blank: false, $zebra: false, $hover: false, $border-color: map-get($gray, lighter), $bordered: false)
+  border-collapse: collapse
+  background: white
+  border-spacing: 0
+  empty-cells: show
+  border: 1px solid $border-color
+  width: 100%
+  margin-bottom: $space
+
+  pre
+    margin: 0
+
+  thead
+    background: map-get($white, dark)
+    color: black
+    text-align: left
+    vertical-align: bottom
+    border-bottom: 1px solid transparent
+
+    th
+      font-weight: bold
+      text-align: left
+      border-color: $border-color
+      border-bottom-width: 0px
+
+  th, td
+    background-color: transparent
+    border-width: 0 0 0 1px
+    font-size: inherit
+    margin: 0
+    overflow: visible
+    padding: ($space/6) ($space/4)
+    line-height: normal
+    border-left: 1px solid $border-color
+
+    &:first-child
+      border-left-width: 0
+
+  @if $hover == true
+    +table-hover
+
+  @if $blank == true
+    +table-blank
+
+  @if $zebra == true
+    +table-zebra
+
+  @if $bordered == true
+    +table-bordered
+
+  @content
+
+=table-bordered-default
+  td
+    border-bottom-color: inherit
+    border-bottom-width: 1px
+    border-bottom-style: solid
+
+  thead
+    border-bottom-color: inherit
+
+=table-blank-default
+  border-color: transparent
+  background: transparent
+  table, tr, td, tbody, thead, th, tfoot
+    border-color: transparent
+    background: transparent
+  th, td
+    border-color: transparent
+
+    &:first-child
+      border-color: transparent
+      padding:
+        left: 0px
+
+    &:last-child
+      border-color: transparent
+      padding:
+        right: 0px
+
+=table-hover-default
+  tbody, thead
+    tr:hover
+      background-color: $primary-color
+
+      td, th
+        color: white
+
+=table-zebra-default
+  tbody, thead
+    tr:nth-child(even)
+      background-color: map-get($white, dark)
+
+    tr
+      td, th
+        // padding: ($space/6) ($space/4)

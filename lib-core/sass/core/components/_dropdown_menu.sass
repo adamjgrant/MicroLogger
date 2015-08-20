@@ -1,0 +1,70 @@
+=dropdown_menu-default
+  .menu-item
+    ul
+      display: none
+      position: absolute
+      padding: 0
+      list-style: none
+      z-index: 10
+      background: white
+      top: 100%
+      margin-top: 1px
+      left: -1px // Compensate for border
+      min-width: 175px
+      border:
+        left: 1px solid map-get($white, darker)
+        right: 1px solid map-get($white, darker)
+        bottom: 1px solid map-get($white, darker)
+      border-radius: map-get($rootElement, border-radius)
+      background: white
+
+      &:before
+        display: block
+        position: absolute
+        content: ' '
+
+      li
+        border: 0px
+
+        a:not([role=button])
+          +button-size-default(1)
+          color: $default-font-color
+          display: block
+          margin-bottom: 0
+          border-radius: 0
+          background: white
+          border-color: white
+          font-size: $default-font-size
+
+          &:hover
+            border-color: map-get($white, dark)
+            background: map-get($white, dark)
+            box-shadow: none
+            text-decoration: none
+
+          &:active
+            border-color: map-get($white, darker)
+            background: map-get($white, darker)
+            box-shadow: none
+
+        &:first-child
+          border-top-right-radius: map-get($rootElement, border-radius)
+          border-top-left-radius: map-get($rootElement, border-radius)
+
+          a:not([role=button])
+            border-top-right-radius: map-get($rootElement, border-radius)
+            border-top-left-radius: map-get($rootElement, border-radius)
+
+        &:last-child
+          border-bottom-right-radius: map-get($rootElement, border-radius)
+          border-bottom-left-radius: map-get($rootElement, border-radius)
+
+          a:not([role=button])
+            border-bottom-right-radius: map-get($rootElement, border-radius)
+            border-bottom-left-radius: map-get($rootElement, border-radius)
+
+    &.open
+      ul
+        display: block
+
+  @content

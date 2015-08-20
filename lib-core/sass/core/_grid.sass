@@ -1,0 +1,159 @@
+// Still playing with this
+  $mobile: (
+    default: 360px,
+    large: 480px,
+    larger: 600px,
+    largest: 768px
+  )
+
+//
+  $display: (
+    smallest: 960px,
+    smaller: 1024px,
+    small: 1200px,
+    default: 1400px
+  )
+
+$phone: 360px
+$phablet: 480px
+$tablet: 768px
+$tablet-landscape: 960px
+$desktop: 1024px
+$large-monitor: 1200px
+$xl-monitor: 1400px
+$xxl-monitor: 1800px
+
+// Media query generator
+=gt($query: $phone)
+  @media screen and (min-width: $query)
+    @content
+
+$grid-columns: 12
+$grid-gutter: 15px
+
+// Grid breakpoints
+// ----------------
+// Critical breakpoints where offsets and alternative grid styles will
+// be displayed
+
+$showOffsets:        $tablet-landscape // Offsets render at this breakpoint
+$showColumns:        $phablet          // Allow < 12 columns
+$showPartialColumns: $tablet           // Simpler alternative to actual columns
+$showFullColumns:    $desktop          // Actual user-defined column measurement
+
+=wrapper-default($fluid: false)
+  margin: 0px auto
+  
+  @if $fluid == false
+    max-width: $tablet
+  padding:
+    left: $space
+    right: $space
+
+  @if $fluid == false
+    @media screen and (min-width: $showOffsets)
+      max-width: $desktop
+
+    @media screen and (min-width: $xxl-monitor)
+      max-width: $large-monitor
+
+=row
+  display: inline-flex
+  width: calc(100% + #{$grid-gutter})
+  justify-content: flex-start
+  align-items: stretch
+  flex-wrap: wrap
+  margin:
+    left: -$grid-gutter/2
+    right: -$grid-gutter/2
+
+=column-universals
+  // For smaller CSS, this can be applied in one rule, rather
+  // than in a loop for every type of column.
+  clear: none
+  display: block
+  margin:
+    left: $grid-gutter/2
+    right: $grid-gutter/2
+
+=measure-columns($columns, $prop)
+  // TODO: DRY this somehow?
+  @if $prop == "width"
+    width: calc(#{percentage($columns/$grid-columns)} - #{$grid-gutter})
+
+  @else if $prop == "margin-left"
+    margin-left: calc(#{percentage($columns/$grid-columns)} + #{$grid-gutter/2})
+
+  @else if $prop == "margin-right"
+    margin-right: calc(#{percentage($columns/$grid-columns)} - #{(($grid-columns/$columns - 1) * $grid-gutter)/($grid-columns/$columns) - $grid-gutter})
+
+=set-offset($columns, $side: "margin-right")
+  // Never show leftes and rights on mobile
+  // +measure-columns(0, $side)
+
+  // Look for keywords
+  @if $columns == "half"
+    @media screen and (min-width: $showPartialColumns)
+      +measure-columns(6, $side)
+
+  @else if $columns == "third"
+    @media screen and (min-width: $showPartialColumns)
+      +measure-columns(6, $side)
+
+    @media screen and (min-width: $showFullColumns)
+      +measure-columns(4, $side)
+
+  @else if $columns == "twothirds"
+    @media screen and (min-width: $showPartialColumns)
+      +measure-columns(6, $side)
+
+    @media screen and (min-width: $showFullColumns)
+      +measure-columns(8, $side)
+
+  @else
+    @media screen and (min-width: $showPartialColumns)
+      +measure-columns($columns, $side)
+
+// Convenience mixins
+=right($columns)
+  +set-offset($columns, "margin-right")
+=left($columns)
+  +set-offset($columns, "margin-left")
+
+=set-column($columns, $left, $right)
+  +measure-columns($columns, "width")
+
+  @if $right != 0
+    +set-offset($right, "margin-right")
+
+  @if $left != 0
+    +set-offset($left, "margin-left")
+
+=column($columns: 12, $left: 0, $right: 0, $constants: true)
+  // Everything is a full width column on mobile by default
+  +set-column(12, 0, 0)
+
+  @if $constants == true
+    +column-universals 
+
+  // Look for keywords
+  @if $columns == "half"
+    @media screen and (min-width: $showPartialColumns)
+      +set-column($grid-columns/2, $left, $right)
+
+  @else if $columns == "third"
+    @media screen and (min-width: $showPartialColumns)
+      +set-column($grid-columns/2, $left, $right)
+    @media screen and (min-width: $showFullColumns)
+      +set-column($grid-columns/3, $left, $right)
+
+  @else if $columns == "twothirds"
+    @media screen and (min-width: $showPartialColumns)
+      +set-column($grid-columns/2, $left, $right)
+    @media screen and (min-width: $showFullColumns)
+      +set-column(($grid-columns * 2/3), $left, $right)
+
+  @else
+    // No keywords found, pass in values.
+    @media screen and (min-width: $showColumns)
+      +set-column($columns, $left, $right)

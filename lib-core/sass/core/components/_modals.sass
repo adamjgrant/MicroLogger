@@ -1,0 +1,74 @@
+=modal-default()
+  +root-element
+  border-width: 0
+  padding: $space
+  position: fixed
+  box-shadow: 0px 0px 0px 99999px rgba(0, 0, 0, 0.35), 0px 0px 25px rgba(0, 0, 0, 0.5)
+  box-shadow: 0px 0px 0px 100vw rgba(0, 0, 0, 0.35), 0px 0px 25px rgba(0, 0, 0, 0.5)
+  top: 15px
+  top: 5vh
+  left: 2%
+  right: 2%
+  margin: 0px auto
+  display: none
+  background: white
+  border-color: map-get($white, dark)
+  animation-duration: 0.2s
+  animation-timing-function: ease
+  animation-fill-mode: both
+  z-index: 1500
+
+  &[style="display: block;"]
+    animation-name: fadeInDown
+
+  @media screen and (min-width: $tablet)
+    top: 75px
+    top: 10vh
+    width: 650px
+    left: 50%
+    margin-left: -325px
+
+  > header, > footer
+    +alert
+
+    > h1, > h2, > h3, > h4, > h5, > h6
+      margin-bottom: 0
+
+    background: map-get($white, dark)
+    color: $default-font-color
+    margin: -$space
+      bottom: $space
+
+  > header
+    border-bottom-left-radius: 0
+    border-bottom-right-radius: 0
+    position: relative
+
+    a[data-modal-close]
+      position: absolute
+      top: $space/2
+      right: $space/2
+      line-height: 1.3rem
+      text-decoration: none
+      font-size: 1.3rem
+
+  > footer
+    margin:
+      top: $space
+      bottom: -$space
+    border-top-left-radius: 0
+    border-top-right-radius: 0
+
+    ul
+      +list($style: 'unstyled', $layout: 'horizontal')
+      text-align: right
+
+      li
+        margin:
+          bottom: 0
+          right: 0
+
+    [role="button"]
+      text-decoration: none
+
+  @content

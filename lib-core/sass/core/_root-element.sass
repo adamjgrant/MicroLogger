@@ -1,0 +1,17 @@
+/*
+ *  Root Element
+ *  =========
+ *  The root element is a base for several many elements in the library
+ *  To ensure consistent spacing when mixed into blocks.
+ */
+
+=root-element($size: 1)
+  padding: ($size * $size * map-get($rootElement, paddingV)) ($size * $size * map-get($rootElement, paddingV))
+  border-radius: map-get($rootElement, border-radius)
+  border: 1px solid transparent
+  outline: none
+  margin-bottom: $space
+  @if $size != 1
+    font-size: $size*$default-font-size
+  line-height: $size*$default-line-height
+  font-family: $default-font-family

@@ -1,0 +1,24 @@
+=alert-default
+  +root-element
+  padding: $space/2
+  background: $primary-color
+  color: white
+  margin:
+    bottom: $space
+
+  p
+    +p
+    color: inherit
+
+  > *:last-child
+    margin-bottom: 0
+
+  h1
+    +heading-xs
+    color: inherit
+
+  a:not([role=button])
+    color: inherit
+    text-decoration: underline
+
+  @content

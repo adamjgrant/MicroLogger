@@ -1,0 +1,49 @@
+=force-gone
+  top: -9999px
+  bottom: auto
+
+=tooltip_trigger-default($background-color: false)
+  position: relative
+  display: inline-block
+  cursor: pointer
+
+  @if not $background-color == false
+    .tooltip
+      +label($background-color)
+
+  &:not(:hover)
+    [data-ks-tooltip]
+      &:not(:hover)
+        &:after, &:before
+          +force-gone
+
+  [data-ks-tooltip]
+    &:hover 
+      &:after, &:before
+        opacity: 1
+
+      &:after
+        transform: translateY(-8px)
+        transition: transform 0.25s
+
+  &:not(:hover)
+    .tooltip
+      +force-gone
+
+  &:hover 
+    [data-ks-tooltip]
+      &:after, &:before
+        opacity: 1
+
+      &:after
+        transform: translateY(-8px)
+        transition: transform 0.25s
+
+    .tooltip
+      opacity: 1
+      transform: translateY(0px)
+
+      &:after
+        opacity: 1
+
+  @content

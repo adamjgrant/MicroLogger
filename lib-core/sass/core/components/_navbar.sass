@@ -1,0 +1,339 @@
+=color($background)
+  @if (lightness($background) < 75%)
+    color: rgba(255, 255, 255, 0.5)
+  @else
+    color: rgba(0, 0, 0, 0.5)
+
+=navbar-align_menus($breakpoint)
+  @media screen and (min-width: $breakpoint)
+    > ul:first-child
+      margin-left: (-1 * map-get($rootElement, paddingH))
+
+    > ul:last-child
+      margin-right: (-1 * map-get($rootElement, paddingH))
+
+    > ul:only-child
+      margin-right: 0
+
+=navbar-mobile-depadding($breakpoint: $tablet)
+  > ul
+    margin:
+      left: -1*map-get($rootElement, paddingH)
+      right: -1*map-get($rootElement, paddingH)
+
+    > li
+      ul[role=button], > [role=button], &.navbar-title button[role="button"]
+        @media screen and (max-width: #{$breakpoint - 1px})
+          margin:
+            left: 0
+            right: 0
+
+=navbar-fluid($breakpoint: $tablet)
+  nav
+    +wrapper(true)
+    +navbar-align_menus($breakpoint)
+    +navbar-mobile-depadding($breakpoint)
+
+=navbar-fluid_fixed($breakpoint: $tablet)
+  nav
+    +wrapper(false)
+    +navbar-align_menus($breakpoint)
+    +navbar-mobile-depadding($breakpoint)
+
+=navbar-collapse($breakpoint: $tablet)
+  nav
+    &.expand
+      > ul > li
+        display: block
+
+        &.navbar-title
+          display: flex
+
+    > ul
+      > li
+        display: none
+
+        @media screen and (min-width: $breakpoint)
+          display: block
+
+        &.navbar-title
+          button
+            display: block
+
+            @media screen and (min-width: $breakpoint)
+              display: none
+
+=navbar-fixed
+  position: fixed
+  z-index: 100
+  left: 0
+  right: 0
+  top: 0
+
+=navbar-color-default($background-color)
+  background-color: $background-color
+
+  nav
+    > ul
+      > li
+        &.menu-item
+          +color($background-color)
+
+        > a:not([role=button])
+          +color($background-color)
+
+          &:hover, &.active
+            @if (lightness($background-color) < 75%)
+              color: white
+            @else
+              color: rgba(0, 0, 0, 0.85)
+            background: darken($background-color, 5%)
+            border-color: darken($background-color, 5%)
+
+          &:active
+            background: darken($background-color, 15%)
+            border-color: darken($background-color, 15%)
+
+
+=navbar-default($layout: 'none', $background-color: map-get($white, darker), $breakpoint: $tablet, $collapse: false, $fixed: false)
+  font-size: $default-font-size
+  margin-bottom: $space
+
+  nav
+    width: 100%
+    border-radius: 0
+    position: relative
+
+    @if (lightness($background-color) < 75%)
+      color: white
+    @else
+      color: $default-font-color
+
+    @media screen and (min-width: $breakpoint)
+      display: flex
+      align-items: center
+      flex-wrap: wrap
+      justify-content: space-between
+      align-content: space-between
+
+    h1
+      +heading-xxs
+      margin-bottom: 0
+      font-size: $default-font-size
+      line-height: $default-line-height
+
+    p
+      margin: 0
+
+    > ul
+      margin: 0
+      padding: 0
+
+      @media screen and (min-width: $breakpoint)
+        display: flex
+        justify-content: space-between
+        align-content: space-between
+        align-items: center
+        flex-wrap: wrap
+
+      &:last-child
+        @media screen and (min-width: $breakpoint)
+          li.menu-item.open, li .menu-item.open[role="button"]
+            ul
+              left: auto
+              right: -1px
+
+      &:only-child
+        @media screen and (min-width: $breakpoint)
+          li.menu-item.open, li .menu-item.open[role="button"]
+            ul
+              left: -1px
+              right: auto
+
+      > li
+        list-style: none
+        +root-element
+        margin-bottom: 0
+        border-radius: 0
+        padding: (2 * map-get($rootElement, paddingV)) (map-get($rootElement, paddingH))
+        position: relative
+        user-select: none
+        border:
+          left: 0px
+          right: 0px
+
+        // @if ($collapse == true)
+        //   margin:
+        //     left: (-1 * map-get($rootElement, paddingH))
+        //     right: (-1 * map-get($rootElement, paddingH))
+
+        @media screen and (min-width: $breakpoint)
+          margin: 0
+
+        &.navbar-title
+          display: flex
+          justify-content: space-between
+          align-items: center
+
+          @media screen and (min-width: $breakpoint)
+            // padding: 0 (map-get($rootElement, paddingH))
+
+            > h1, > h2, > h3, > h4, > h5, > h6
+              padding: (map-get($rootElement, paddingV) - 1) (map-get($rootElement, paddingH))
+
+          button
+            +button-default(transparent)
+            background: transparent
+            border-color: transparent
+            color: inherit
+            // margin-bottom: 0
+            font-family: Kickstart, 'Kickstart'
+            padding:
+              left: 0
+              right: 0
+            opacity: 0.5
+            display: none
+
+            &:hover, &:active
+              box-shadow: none
+
+            &:hover
+              opacity: 1
+
+            @media screen and (min-width: $breakpoint)
+              display: none
+
+        ul
+          display: none
+
+        &.menu-item.open ul, .menu-item.open ul
+          display: block
+
+        &.menu-item // Added via k$.nav()
+          padding: (2 * map-get($rootElement, paddingV) - 1) (map-get($rootElement, paddingH))
+          cursor: pointer
+          border:
+            left: 1px solid transparent
+            right: 1px solid transparent
+
+          ul
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1)
+
+          &:before
+            content: '='
+            margin-right: 8px
+
+          &:before, &:after
+            font-family: 'Kickstart', Kickstart
+            display: inline-block
+            font-size: .65*$default-font-size
+            vertical-align: middle
+
+          @media screen and (min-width: $breakpoint)
+            &:before
+              content: ' '
+              display: none
+
+            &.open
+              &:before
+                content: ' '
+                display: block
+                position: absolute
+                bottom: -2px
+                left: 0
+                right: 0
+                height: 2px
+                background: inherit
+                margin: 0
+                z-index: 15
+
+            &:after
+              content: '+'
+              margin-left: 8px
+
+          &:hover, &.active
+            @if (lightness($background-color) < 75%)
+              color: white
+            @else
+              color: rgba(0, 0, 0, 0.85)
+
+          &:hover
+            background: darken($background-color, 5%)
+            border-color: darken($background-color, 5%)
+
+          &:active
+            background: darken($background-color, 15%)
+            border-color: darken($background-color, 15%)
+
+          &.open
+            color: rgba(0, 0, 0, 0.85)
+            background: white
+            border-color: map-get($white, darker)
+            border-bottom-color: transparent
+
+            &:hover
+              color: rgba(0, 0, 0, 0.85)
+              border-color: map-get($white, darker)
+              border-bottom-color: transparent
+
+          @media screen and (max-width: $breakpoint)
+            ul
+              max-width: none
+              right: -1px
+
+              li, li a:not([role=button])
+                font-size: $default-font-size
+
+              a:not([role=button])
+                padding:
+                  top: 2 * map-get($rootElement, paddingV)
+                  bottom: 2 * map-get($rootElement, paddingV)
+
+        ul
+          border-top-left-radius: 0
+          border-top-right-radius: 0
+          // display: none
+
+          @media screen and (min-width: $breakpoint)
+            border-top: 1px solid map-get($white, darker)
+
+        ul[role=button]
+          display: inline-flex
+
+        ul[role=button], > [role=button], &.navbar-title button[role="button"]
+          margin: (-2 * map-get($rootElement, paddingV)) + 2
+            bottom: (-2 * map-get($rootElement, paddingV)) + 2 // Repeated to override navbar-title
+          vertical-align: text-bottom
+
+        > a:not([role=button]), &.navbar-title > h1
+          text-decoration: none
+          cursor: pointer
+          display: block
+          +root-element
+          margin-bottom: 0
+          border-radius: 0
+          margin: (-2 * map-get($rootElement, paddingV) - 1) (-1 * map-get($rootElement, paddingH))
+          padding:
+            top: (2 * map-get($rootElement, paddingV))
+            bottom: (2 * map-get($rootElement, paddingV))
+            left: map-get($rootElement, paddingH)
+            right: map-get($rootElement, paddingH)
+
+        &.navbar-title > h1
+          line-height: normal
+
+  @if ($layout == 'fluid')
+    +navbar-fluid($breakpoint)
+
+  @if ($layout == 'fluid-fixed')
+    +navbar-fluid_fixed($breakpoint)
+
+  @if ($fixed == true)
+    +navbar-fixed
+
+  @if ($collapse == true)
+    +navbar-collapse($breakpoint)
+
+  +navbar-color-default($background-color)
+
+  @content

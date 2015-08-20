@@ -1,0 +1,179 @@
+=type-default
+  font-family: $default-font-family
+  font-size: $default-font-size
+  font-size: calc(#{$default-font-size - 2} + #{$scalingFactor})
+  line-height: $default-line-height
+  line-height: calc(#{$default-line-height} + #{$scalingFactor})
+  color: $default-font-color
+
+html
+  color: map-get($black, lightest)
+
+ul, ol
+  margin: 0
+    bottom: $space
+  line-height: 1.45rem
+
+h1, h2, h3, h4, h5, h6, p
+  margin: 0
+  line-height: normal
+
+p
+  margin: 0
+    bottom: $space
+  line-height: $default-line-height
+
+a
+  text-decoration: none
+  color: map-get($colors, blue)
+
+  &:hover
+    text-decoration: underline
+
+=pre-default
+  color: darken(map-get($colors, blue), 25%)
+  border-radius: $space/5
+  padding: ($space/5)
+  font-family: $mono-font-family
+  word-break: normal
+  hyphens: none
+  tab-size: 2
+  word-wrap: break-word
+  border: 0px !important
+  margin: 0
+    bottom: $space
+
+=code-default
+  margin-bottom: 0px
+  padding: 0 (($space/5)/3)
+
+=p-default($content-optimized: false)
+  font-size: 1rem
+  margin-bottom: $space
+  line-height: $default-line-height
+
+  @if ($content-optimized)
+    font-size: 1.25rem
+    line-height: 1.85rem
+    margin-bottom: 1.25rem
+
+=hero-default
+  padding:
+    top: $space
+    top: 2vw
+    bottom: $space
+    bottom: 2vw
+  min-height: 450px
+  min-height: 35vw
+  background: $primary-color
+  margin-bottom: $space
+  box-shadow: inset 0px -30px 100px -20px hsla(0, 0%, 0%, 0.15), inset 0px 40px 90px -20px rgba(255, 255, 255, 0.15)
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  color: white
+
+  > h1, > h2, > h3, > h4, > h5, > h6, > p
+    text-align: center
+    font-weight: 300
+
+  h1, h2, h3, h4, h5, h6, p
+    color: inherit
+
+  h1
+    +heading-xxl
+  h2
+    +heading-xl
+  h3
+    +heading-lg
+  h4
+    +heading-md
+  h5
+    +heading-rg
+  h6
+    +heading-sm
+
+  > img
+    margin: 0px auto
+    display: block
+
+=heading-break
+  margin:
+    top: 2rem
+  &:first-child
+    margin-top: 0
+
+=page-heading-default
+  h1, h2, h3, h4, h5, h6
+    border-bottom: 1px solid map-get($white, darker)
+    padding-bottom: $space/2
+
+=heading-xxl-default
+  font-size: 3rem
+  margin:
+    bottom: 1.65rem
+  +heading-break
+
+=heading-xl-default
+  font-size: 2.7rem
+  margin:
+    bottom: 1.5rem
+  +heading-break
+
+=heading-lg-default
+  font-size: 2.4rem
+  margin:
+    bottom: 1.25rem
+  +heading-break
+
+=heading-md-default
+  font-size: 2.1rem
+  margin:
+    bottom: 1.15rem
+  +heading-break
+
+=heading-rg-default
+  font-size: 1.8rem
+  margin:
+    bottom: 1rem
+  +heading-break
+
+=heading-sm-default
+  font-size: 1.5rem
+  margin:
+    bottom: 0.85rem
+  +heading-break
+
+=heading-xs-default
+  font-size: 1.2rem
+  margin:
+    bottom: 0.7rem
+  +heading-break
+
+=heading-xxs-default
+  font-size: 0.9rem
+  margin:
+    bottom: 0.5rem
+  +heading-break
+
+=list-default($style: 'none', $layout: 'vertical')
+  margin-bottom: $space
+
+  @if ($style == 'unstyled')
+    +list-unstyled
+
+  @if ($layout == 'horizontal')
+    +list-horizontal
+
+=list-unstyled
+  padding: 0
+  list-style: none
+
+  > li
+    margin-bottom: 0.85rem
+
+=list-horizontal
+  > li
+    display: inline-block
+    margin-right: 5px

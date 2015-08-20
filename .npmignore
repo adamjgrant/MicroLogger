@@ -1,0 +1,13 @@
+/public
+/rails
+/docs
+/lib-docs
+node_modules
+/raw/publish
+bower_components
+.sass-cache
+*.gem
+*.bundle
+*.so
+*.o
+*.a

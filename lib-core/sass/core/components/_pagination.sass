@@ -1,0 +1,11 @@
+=pagination-default($background: map-get($white, dark))
+  display: flex
+  align-items: flex-start
+  flex-wrap: wrap
+  justify-content: space-between
+  align-content: space-between
+
+  > ul
+    +button-group-default($size: 1)
+
+  @content

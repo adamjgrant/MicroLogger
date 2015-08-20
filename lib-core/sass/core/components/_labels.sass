@@ -1,0 +1,18 @@
+=label-default($background-color: $primary-color)
+  +root-element
+  background: $background-color
+  font-size: 0.8rem
+  color: white
+  line-height: normal
+  font-weight: bold
+  padding:
+    top: 3px
+    bottom: 3px
+
+  @if $background-color == map-get($colors, yellow)
+    color: $default-font-color
+
+  &:after
+    border-top-color: $background-color
+
+  @content
