@@ -1,5 +1,0 @@
-docs.sass
-fullpage.sass
-kickstart-semantic.sass
-kickstart.sass
-pages
