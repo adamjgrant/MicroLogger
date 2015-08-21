@@ -1,16 +1,16 @@
 extends layout
 
 block content
-  h1 Test runner proof of concept
+  h1 Micrologger proof of concept
 
   :markdown
-    By [Adam Grant](http://adamgrant.me) |  [Download Test Runner](https://github.com/adamjgrant/Test-Runner/blob/master/lib/js/testRunner.js) (v0.0.1)
+    By [Adam Grant](http://adamgrant.me) |  [Download Micrologger](https://github.com/adamjgrant/Test-Runner/blob/master/lib/js/micrologger.js) (v0.0.1)
 
-  p Test runner is the JavaScript testing framework that is always running, making sure each and every interaction from your users behaves as expected.
+  p Micrologger is the JavaScript testing framework that is always running, making sure each and every interaction from your users behaves as expected.
 
   h2 How is this different from other testing frameworks like Mocha.js?
 
-  p Test runner is designed to be used, not only during CI but on production itself. This is because test failures can sometimes be the result of particularities in the user's context.
+  p Micrologger is designed to be used, not only during CI but on production itself. This is because test failures can sometimes be the result of particularities in the user's context.
 
   p Wouldn't it be nice to be notified when a user sees a JavaScript error and what the context of that error was?
 
@@ -34,7 +34,7 @@ block content
           // Return whatever data was fetched to that expectation.
         }
 
-  p Test runner also exposes the reporting functions for passed and failed tests, allowing you to use for 3rd party reporting tools like Mixpanel
+  p Micrologger also exposes the reporting functions for passed and failed tests, allowing you to use for 3rd party reporting tools like Mixpanel
   p Just override <code>$tr.pass(message)</code> and <code>$tr.fail(message, args)</code>.
 
   :markdown
@@ -52,13 +52,13 @@ block content
 
   :markdown
     The idea of loading a testing framework as a dependency on production doesn't sound very tempting, 
-    so Test runner [has been made very small and simple](https://github.com/adamjgrant/Test-Runner/blob/master/lib/js/testRunner.js), 
+    so Micrologger [has been made very small and simple](https://github.com/adamjgrant/MicroLogger/blob/master/lib/js/micrologger.js), 
     relying on built in JavaScript logic for testing. The additional load is truly negligible.
 
   h1 Examples
 
   p The button on the left will expect you to press the button on the right in three seconds.
-  p Open your console to see test runner output.
+  p Open your console to see Micrologger output.
   button#first Press me first
   &nbsp;
   button#second Press me second
