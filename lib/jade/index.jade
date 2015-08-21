@@ -78,7 +78,7 @@ block content
 
   p On the event listener for <strong>Button 2</strong> we simply made a call to the function we created from button 1.
 
-  pre $ml.waitForButton.return()
+  pre $ml.waitForButton.respond()
 
   p <code>waitForButton</code> is a custom name, you can create any name you want after <code>$ml</code>
 
@@ -102,12 +102,12 @@ block content
           $ml.waitForButton = new $ml.Assert("button was pressed in less than 5 seconds", 5000)
         ]);
 
-  p On the second button, again, we just call <code>return</code> on the function we created in button 1's event listener.
+  p On the second button, again, we just call <code>respond</code> on the function we created in button 1's event listener.
 
   :markdown
     <span>
 
-        $ml.specs.waitTwiceForButton.return();
+        $ml.specs.waitTwiceForButton.respond();
 
   h1 Expect
 
@@ -134,18 +134,18 @@ block content
           return variable === 1; // We'll use plain old JavaScript to return true or false.
         });
 
-  p Next, each of our buttons set the return value. We could have also done this in reverse order and called return on the button that did the expectation.
+  p Next, each of our buttons set the return value. We could have also done this in reverse order and called <code>respond<code> on the button that did the expectation.
 
   :markdown
     <span>
 
         // Button 1's event listener
         var someVar = 1;
-        $ml.getOne.return(someVar);
+        $ml.getOne.respond(someVar);
 
         // Button 2's event listener
         var someVar = 2;
-        $ml.getOne.return(someVar);
+        $ml.getOne.respond(someVar);
 
   h1 Adding it all together
 
@@ -182,8 +182,8 @@ block content
 
         // Button 1's event listener
         someVar = 1
-        $ml.specs.getOneQuickly.return(someVar);
+        $ml.specs.getOneQuickly.respond(someVar);
 
         // Button 2's event listener
         someVar = 2
-        $ml.specs.getOneQuickly.return(someVar);
+        $ml.specs.getOneQuickly.respond(someVar);
