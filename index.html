@@ -35,13 +35,16 @@ relying on built in JavaScript logic for testing. The additional load is truly n
 });
 </code></pre><p>Next, each of our buttons set the return value. We could have also done this in reverse order and called return on the button that did the expectation.</p><p><span></p>
 
-<p>// Button 1's event listener
+<pre><code>// Button 1's event listener
   var someVar = 1;
-  $tr.getOne.return(someVar);</p>
+  $tr.getOne.return(someVar);
+</code></pre>
 
-<p>// Button 2's event listener
+<pre><code>// Button 2's event listener
   var someVar = 2;
-  $tr.getOne.return(someVar);</p><h1>Adding it all together</h1><p>Now let's use both assertions and expectations in a spec.</p><p>We expect that a variable is set to 1 in less than 3 seconds</p><button id="final">First, let's begin the timer</button><p>Now, one of these will need to be pressed in less than 3 seconds and sets the var equal to 1.</p><button id="setonetwo">Set 1</button>&nbsp;<button id="settwotwo">Set 2</button><h2>What happened?</h2><p>In the first button's event listener, we created a spec.</p><p><span></p>
+  $tr.getOne.return(someVar);</code></pre>
+  
+</p><h1>Adding it all together</h1><p>Now let's use both assertions and expectations in a spec.</p><p>We expect that a variable is set to 1 in less than 3 seconds</p><button id="final">First, let's begin the timer</button><p>Now, one of these will need to be pressed in less than 3 seconds and sets the var equal to 1.</p><button id="setonetwo">Set 1</button>&nbsp;<button id="settwotwo">Set 2</button><h2>What happened?</h2><p>In the first button's event listener, we created a spec.</p><p><span></p>
 
 <pre><code>$tr.specs.getOneQuickly = new $tr.Spec([
   new $tr.Expect("variable is set to 1", function(variable) {
