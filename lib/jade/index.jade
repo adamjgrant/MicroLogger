@@ -3,6 +3,60 @@ extends layout
 block content
   h1 Test runner proof of concept
 
+  :markdown
+    By [Adam Grant](http://adamgrant.me) |  [Download Test Runner](https://github.com/adamjgrant/Test-Runner/blob/master/lib/js/testRunner.js) (v0.0.1)
+
+  p Test runner is the JavaScript testing framework that is always running, making sure each and every interaction from your users behaves as expected.
+
+  h2 How is this different from other testing frameworks like Mocha.js?
+
+  p Test runner is designed to be used, not only during CI but on production itself. This is because test failures can sometimes be the result of particularities in the user's context.
+
+  p Wouldn't it be nice to be notified when a user sees a JavaScript error and what the context of that error was?
+
+  h3 Conceptual differences
+
+  p Assertions and expectations are two-sided. The first side lives on the user's interaction
+
+  :markdown
+    <span>
+
+        var requestNews = function() {
+          // Expect that a list of news articles will be returned.
+        }
+
+  p And the other side lives on the application.
+
+  :markdown
+    <span>
+
+        var getNewsViaAJAX = function() {
+          // Return whatever data was fetched to that expectation.
+        }
+
+  p Test runner also exposes the reporting functions for passed and failed tests, allowing you to use for 3rd party reporting tools like Mixpanel
+  p Just override <code>$tr.pass(message)</code> and <code>$tr.fail(message, args)</code>.
+
+  :markdown
+    <span>
+
+        $tr.pass = function(message) {
+          mixpanel.track("Successful interaction", { message: message });
+        }
+
+        $tr.fail = function(message args) {
+          mixpanel.track("Error", { message: message, args: JSON.stringify(args) });
+        }
+
+  h3 Stupidly small
+
+  :markdown
+    The idea of loading a testing framework as a dependency on production doesn't sound very tempting, 
+    so Test runner [has been made very small and simple](https://github.com/adamjgrant/Test-Runner/blob/master/lib/js/testRunner.js), 
+    relying on built in JavaScript logic for testing. The additional load is truly negligible.
+
+  h1 Examples
+
   p The button on the left will expect you to press the button on the right in three seconds.
   p Open your console to see test runner output.
   button#first Press me first
@@ -13,13 +67,13 @@ block content
 
   p On the event listener for <strong>Button 1</strong> we registered a simple assertion
 
-  pre testRunner.waitForButton = new testRunner.Assert("button was pressed in less than 3 seconds", 3000);
+  pre $tr.waitForButton = new $tr.Assert("button was pressed in less than 3 seconds", 3000);
 
   p On the event listener for <strong>Button 2</strong> we simply made a call to the function we created from button 1.
 
-  pre testRunner.waitForButton.return()
+  pre $tr.waitForButton.return()
 
-  p <code>waitForButton</code> is a custom name, you can create any name you want after <code>testRunner</code>
+  p <code>waitForButton</code> is a custom name, you can create any name you want after <code>$tr</code>
 
   h1 Specs
 
@@ -36,9 +90,9 @@ block content
   :markdown
     <span>
 
-        testRunner.specs.waitTwiceForButton = new testRunner.Spec([
-          testRunner.waitForButton = new testRunner.Assert("button was pressed in less than 3 seconds", 3000),
-          testRunner.waitForButton = new testRunner.Assert("button was pressed in less than 5 seconds", 5000)
+        $tr.specs.waitTwiceForButton = new $tr.Spec([
+          $tr.waitForButton = new $tr.Assert("button was pressed in less than 3 seconds", 3000),
+          $tr.waitForButton = new $tr.Assert("button was pressed in less than 5 seconds", 5000)
         ]);
 
   p On the second button, again, we just call <code>return</code> on the function we created in button 1's event listener.
@@ -46,7 +100,7 @@ block content
   :markdown
     <span>
 
-        testRunner.specs.waitTwiceForButton.return();
+        $tr.specs.waitTwiceForButton.return();
 
   h1 Expect
 
@@ -69,7 +123,7 @@ block content
   :markdown
     <span>
 
-        testRunner.getOne = new testRunner.Expect("variable is set to 1", function(variable) {
+        $tr.getOne = new $tr.Expect("variable is set to 1", function(variable) {
           return variable === 1; // We'll use plain old JavaScript to return true or false.
         });
 
@@ -80,11 +134,11 @@ block content
 
       // Button 1's event listener
       var someVar = 1;
-      testRunner.getOne.return(someVar);
+      $tr.getOne.return(someVar);
 
       // Button 2's event listener
       var someVar = 2;
-      testRunner.getOne.return(someVar);
+      $tr.getOne.return(someVar);
 
   h1 Adding it all together
 
@@ -97,6 +151,7 @@ block content
   p Now, one of these will need to be pressed in less than 3 seconds and sets the var equal to 1.
 
   button#setonetwo Set 1
+  &nbsp;
   button#settwotwo Set 2
 
   h2 What happened?
@@ -106,11 +161,11 @@ block content
   :markdown
     <span>
 
-        testRunner.specs.getOneQuickly = new testRunner.Spec([
-          new testRunner.Expect("variable is set to 1", function(variable) {
+        $tr.specs.getOneQuickly = new $tr.Spec([
+          new $tr.Expect("variable is set to 1", function(variable) {
             return variable === 1;
           }),
-          new testRunner.Assert("variable is set in less than 3 seconds", 3000);
+          new $tr.Assert("variable is set in less than 3 seconds", 3000);
         ]);
 
   p Now each button just needs to return the variable to the spec function we created.
@@ -120,8 +175,8 @@ block content
 
         // Button 1's event listener
         someVar = 1
-        testRunner.specs.getOneQuickly.return(someVar);
+        $tr.specs.getOneQuickly.return(someVar);
 
         // Button 2's event listener
         someVar = 2
-        testRunner.specs.getOneQuickly.return(someVar);
+        $tr.specs.getOneQuickly.return(someVar);
