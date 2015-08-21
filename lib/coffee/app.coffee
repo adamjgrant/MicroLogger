@@ -1,5 +1,5 @@
 KS        = require '../../lib-core/coffee/app'
-window['$tr'] = require '../js/testRunner'
+window['$tr'] = require '../js/micrologger'
 vendor    = require './vendor/index'
 
 document.addEventListener 'DOMContentLoaded', ->
