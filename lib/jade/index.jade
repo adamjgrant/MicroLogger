@@ -4,9 +4,16 @@ block content
   h1 Micrologger proof of concept
 
   :markdown
-    By [Adam Grant](http://adamgrant.me) |  [Download Micrologger](https://github.com/adamjgrant/Test-Runner/blob/master/lib/js/micrologger.js) (v0.0.1)
+    By [Adam Grant](http://adamgrant.me) |  [Copy the Snippet](https://github.com/adamjgrant/Test-Runner/blob/master/lib/js/micrologger.js) (v0.0.1)
 
-  p Micrologger is the JavaScript testing framework that is always running, making sure each and every interaction from your users behaves as expected.
+  p
+    strong Open your browser's JavaScript console to see Micrologger work.
+
+  ul
+    li: a(href="#about") About
+    li: a(href="#examples") Examples
+
+  p#about Micrologger is the JavaScript testing framework that is always running, making sure each and every interaction from your users behaves as expected.
 
   h2 How is this different from other testing frameworks like Mocha.js?
 
@@ -35,16 +42,16 @@ block content
         }
 
   p Micrologger also exposes the reporting functions for passed and failed tests, allowing you to use for 3rd party reporting tools like Mixpanel
-  p Just override <code>$tr.pass(message)</code> and <code>$tr.fail(message, args)</code>.
+  p Just override <code>$ml.pass(message)</code> and <code>$ml.fail(message, args)</code>.
 
   :markdown
     <span>
 
-        $tr.pass = function(message) {
+        $ml.pass = function(message) {
           mixpanel.track("Successful interaction", { message: message });
         }
 
-        $tr.fail = function(message args) {
+        $ml.fail = function(message args) {
           mixpanel.track("Error", { message: message, args: JSON.stringify(args) });
         }
 
@@ -55,7 +62,7 @@ block content
     so Micrologger [has been made very small and simple](https://github.com/adamjgrant/MicroLogger/blob/master/lib/js/micrologger.js), 
     relying on built in JavaScript logic for testing. The additional load is truly negligible.
 
-  h1 Examples
+  h1#examples Examples
 
   p The button on the left will expect you to press the button on the right in three seconds.
   p Open your console to see Micrologger output.
@@ -67,13 +74,13 @@ block content
 
   p On the event listener for <strong>Button 1</strong> we registered a simple assertion
 
-  pre $tr.waitForButton = new $tr.Assert("button was pressed in less than 3 seconds", 3000);
+  pre $ml.waitForButton = new $ml.Assert("button was pressed in less than 3 seconds", 3000);
 
   p On the event listener for <strong>Button 2</strong> we simply made a call to the function we created from button 1.
 
-  pre $tr.waitForButton.return()
+  pre $ml.waitForButton.return()
 
-  p <code>waitForButton</code> is a custom name, you can create any name you want after <code>$tr</code>
+  p <code>waitForButton</code> is a custom name, you can create any name you want after <code>$ml</code>
 
   h1 Specs
 
@@ -90,9 +97,9 @@ block content
   :markdown
     <span>
 
-        $tr.specs.waitTwiceForButton = new $tr.Spec([
-          $tr.waitForButton = new $tr.Assert("button was pressed in less than 3 seconds", 3000),
-          $tr.waitForButton = new $tr.Assert("button was pressed in less than 5 seconds", 5000)
+        $ml.specs.waitTwiceForButton = new $ml.Spec([
+          $ml.waitForButton = new $ml.Assert("button was pressed in less than 3 seconds", 3000),
+          $ml.waitForButton = new $ml.Assert("button was pressed in less than 5 seconds", 5000)
         ]);
 
   p On the second button, again, we just call <code>return</code> on the function we created in button 1's event listener.
@@ -100,7 +107,7 @@ block content
   :markdown
     <span>
 
-        $tr.specs.waitTwiceForButton.return();
+        $ml.specs.waitTwiceForButton.return();
 
   h1 Expect
 
@@ -123,7 +130,7 @@ block content
   :markdown
     <span>
 
-        $tr.getOne = new $tr.Expect("variable is set to 1", function(variable) {
+        $ml.getOne = new $ml.Expect("variable is set to 1", function(variable) {
           return variable === 1; // We'll use plain old JavaScript to return true or false.
         });
 
@@ -134,11 +141,11 @@ block content
 
         // Button 1's event listener
         var someVar = 1;
-        $tr.getOne.return(someVar);
+        $ml.getOne.return(someVar);
 
         // Button 2's event listener
         var someVar = 2;
-        $tr.getOne.return(someVar);
+        $ml.getOne.return(someVar);
 
   h1 Adding it all together
 
@@ -161,11 +168,11 @@ block content
   :markdown
     <span>
 
-        $tr.specs.getOneQuickly = new $tr.Spec([
-          new $tr.Expect("variable is set to 1", function(variable) {
+        $ml.specs.getOneQuickly = new $ml.Spec([
+          new $ml.Expect("variable is set to 1", function(variable) {
             return variable === 1;
           }),
-          new $tr.Assert("variable is set in less than 3 seconds", 3000);
+          new $ml.Assert("variable is set in less than 3 seconds", 3000);
         ]);
 
   p Now each button just needs to return the variable to the spec function we created.
@@ -175,8 +182,8 @@ block content
 
         // Button 1's event listener
         someVar = 1
-        $tr.specs.getOneQuickly.return(someVar);
+        $ml.specs.getOneQuickly.return(someVar);
 
         // Button 2's event listener
         someVar = 2
-        $tr.specs.getOneQuickly.return(someVar);
+        $ml.specs.getOneQuickly.return(someVar);
