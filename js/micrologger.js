@@ -5,7 +5,7 @@ var $ml = {
     this.timeout = timeout;
     this.spec = spec;
     this.fail = window.setTimeout(function() {
-      testRunner.fail(this.string);
+      $ml.fail(this.string);
     }.bind(this), this.timeout);
   },
   Expect: function(string, condition) {
