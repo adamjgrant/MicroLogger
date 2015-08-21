@@ -1,4 +1,4 @@
-var $tr = {
+var $ml = {
   specs: {},
   Assert: function(string, timeout, spec) {
     this.string = string;
@@ -17,30 +17,30 @@ var $tr = {
     this.tests = this.tests.concat(tests);
   },
   pass: function(message) {
-    console.log("%cTESTRUNNER PASSED: " + message, "color: green");
+    console.log("%c[PASS]: " + message, "color: green");
   },
   fail: function(message, args) {
-    console.error("TESTRUNNER FAILED: " + message);
+    console.error("[FAIL]: " + message);
     console.error(args);
   }
 }
 
-$tr.Assert.prototype.return = function() {
+$ml.Assert.prototype.return = function() {
   window.clearTimeout(this.fail);
-  $tr.pass(this.string);
+  $ml.pass(this.string);
 }
 
-$tr.Expect.prototype.return = function() {
+$ml.Expect.prototype.return = function() {
   var args = Array.prototype.slice.call(arguments);
   if (this.condition.apply(null, args)) {
-    $tr.pass(this.string);
+    $ml.pass(this.string);
   }
   else {
-    $tr.fail(this.string, args);
+    $ml.fail(this.string, args);
   }
 }
 
-$tr.Spec.prototype.return = function() {
+$ml.Spec.prototype.return = function() {
   thisData = Array.prototype.slice.call(arguments)
 
   for (var _i = 0, len = this.tests.length; _i < len; _i++) {
@@ -48,4 +48,4 @@ $tr.Spec.prototype.return = function() {
   }
 }
 
-module.exports = $tr
+module.exports = $ml
