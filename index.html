@@ -1,40 +1,61 @@
-<!DOCTYPE html><html lang="en"><head><base href="http://cdn.everything.io/manual_uploads/test-runner/" /><link rel="stylesheet" href="style.min.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"><title>My Website - Home</title></head><body><main class="main"><h1>Test runner proof of concept</h1><p>The button on the left will expect you to press the button on the right in three seconds.</p><p>Open your console to see test runner output.</p><button id="first">Press me first</button>&nbsp;<button id="second">Press me second</button><h2>What happened?</h2><p>On the event listener for <strong>Button 1</strong> we registered a simple assertion</p><pre>testRunner.waitForButton = new testRunner.Assert("button was pressed in less than 3 seconds", 3000);</pre><p>On the event listener for <strong>Button 2</strong> we simply made a call to the function we created from button 1.</p><pre>testRunner.waitForButton.return()</pre><p><code>waitForButton</code> is a custom name, you can create any name you want after <code>testRunner</code></p><h1>Specs</h1><p>We can also bundle tests into specs. Let's use the same example but we want to see that the second button is pressed both less than 3 and less than 5 seconds.</p><button id="third">Press me first</button>&nbsp;<button id="fourth">Then press me</button><h2>What happened?</h2><p>When we pressed the first button, the event listener created a new spec with two assertions.</p><p><span></p>
+<!DOCTYPE html><html lang="en"><head><base href="http://cdn.everything.io/manual_uploads/test-runner/" /><link rel="stylesheet" href="style.min.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"><title>My Website - Home</title></head><body><main class="main"><h1>Test runner proof of concept</h1><p>By <a href="http://adamgrant.me">Adam Grant</a> |  <a href="https://github.com/adamjgrant/Test-Runner/blob/master/lib/js/testRunner.js">Download Test Runner</a> (v0.0.1)</p><p>Test runner is the JavaScript testing framework that is always running, making sure each and every interaction from your users behaves as expected.</p><h2>How is this different from other testing frameworks like Mocha.js?</h2><p>Test runner is designed to be used, not only during CI but on production itself. This is because test failures can sometimes be the result of particularities in the user's context.</p><p>Wouldn't it be nice to be notified when a user sees a JavaScript error and what the context of that error was?</p><h3>Conceptual differences</h3><p>Assertions and expectations are two-sided. The first side lives on the user's interaction</p><p><span></p>
 
-<pre><code>testRunner.specs.waitTwiceForButton = new testRunner.Spec([
-  testRunner.waitForButton = new testRunner.Assert("button was pressed in less than 3 seconds", 3000),
-  testRunner.waitForButton = new testRunner.Assert("button was pressed in less than 5 seconds", 5000)
+<pre><code>var requestNews = function() {
+  // Expect that a list of news articles will be returned.
+}
+</code></pre><p>And the other side lives on the application.</p><p><span></p>
+
+<pre><code>var getNewsViaAJAX = function() {
+  // Return whatever data was fetched to that expectation.
+}
+</code></pre><p>Test runner also exposes the reporting functions for passed and failed tests, allowing you to use for 3rd party reporting tools like Mixpanel</p><p>Just override <code>$tr.pass(message)</code> and <code>$tr.fail(message, args)</code>.</p><p><span></p>
+
+<pre><code>$tr.pass = function(message) {
+  mixpanel.track("Successful interaction", { message: message });
+}
+
+$tr.fail = function(message args) {
+  mixpanel.track("Error", { message: message, args: JSON.stringify(args) });
+}
+</code></pre><h3>Stupidly small</h3><p>The idea of loading a testing framework as a dependency on production doesn't sound very tempting, 
+so Test runner <a href="https://github.com/adamjgrant/Test-Runner/blob/master/lib/js/testRunner.js">has been made very small and simple</a>, 
+relying on built in JavaScript logic for testing. The additional load is truly negligible.</p><h1>Examples</h1><p>The button on the left will expect you to press the button on the right in three seconds.</p><p>Open your console to see test runner output.</p><button id="first">Press me first</button>&nbsp;<button id="second">Press me second</button><h2>What happened?</h2><p>On the event listener for <strong>Button 1</strong> we registered a simple assertion</p><pre>$tr.waitForButton = new $tr.Assert("button was pressed in less than 3 seconds", 3000);</pre><p>On the event listener for <strong>Button 2</strong> we simply made a call to the function we created from button 1.</p><pre>$tr.waitForButton.return()</pre><p><code>waitForButton</code> is a custom name, you can create any name you want after <code>$tr</code></p><h1>Specs</h1><p>We can also bundle tests into specs. Let's use the same example but we want to see that the second button is pressed both less than 3 and less than 5 seconds.</p><button id="third">Press me first</button>&nbsp;<button id="fourth">Then press me</button><h2>What happened?</h2><p>When we pressed the first button, the event listener created a new spec with two assertions.</p><p><span></p>
+
+<pre><code>$tr.specs.waitTwiceForButton = new $tr.Spec([
+  $tr.waitForButton = new $tr.Assert("button was pressed in less than 3 seconds", 3000),
+  $tr.waitForButton = new $tr.Assert("button was pressed in less than 5 seconds", 5000)
 ]);
 </code></pre><p>On the second button, again, we just call <code>return</code> on the function we created in button 1's event listener.</p><p><span></p>
 
-<pre><code>testRunner.specs.waitTwiceForButton.return();
+<pre><code>$tr.specs.waitTwiceForButton.return();
 </code></pre><h1>Expect</h1><p>How about conditional logic? Let's use <code>Expect</code> to compare two numbers.</p><p>This button will check if the variable is equal to 1.</p><button id="getone">Check for 1</button><p>Now these two buttons will set a variable equal to 1 or 2 respectively. And run the test.</p><button id="setone">1</button>&nbsp;<button id="settwo">2</button><h2>What happened?</h2><p>First, our get one button set up an expectation</p><p><span></p>
 
-<pre><code>testRunner.getOne = new testRunner.Expect("variable is set to 1", function(variable) {
+<pre><code>$tr.getOne = new $tr.Expect("variable is set to 1", function(variable) {
   return variable === 1; // We'll use plain old JavaScript to return true or false.
 });
 </code></pre><p>Next, each of our buttons set the return value. We could have also done this in reverse order and called return on the button that did the expectation.</p><p><span></p>
 
 <p>// Button 1's event listener
   var someVar = 1;
-  testRunner.getOne.return(someVar);</p>
+  $tr.getOne.return(someVar);</p>
 
 <p>// Button 2's event listener
   var someVar = 2;
-  testRunner.getOne.return(someVar);</p><h1>Adding it all together</h1><p>Now let's use both assertions and expectations in a spec.</p><p>We expect that a variable is set to 1 in less than 3 seconds</p><button id="final">First, let's begin the timer</button><p>Now, one of these will need to be pressed in less than 3 seconds and sets the var equal to 1.</p><button id="setonetwo">Set 1</button><button id="settwotwo">Set 2</button><h2>What happened?</h2><p>In the first button's event listener, we created a spec.</p><p><span></p>
+  $tr.getOne.return(someVar);</p><h1>Adding it all together</h1><p>Now let's use both assertions and expectations in a spec.</p><p>We expect that a variable is set to 1 in less than 3 seconds</p><button id="final">First, let's begin the timer</button><p>Now, one of these will need to be pressed in less than 3 seconds and sets the var equal to 1.</p><button id="setonetwo">Set 1</button>&nbsp;<button id="settwotwo">Set 2</button><h2>What happened?</h2><p>In the first button's event listener, we created a spec.</p><p><span></p>
 
-<pre><code>testRunner.specs.getOneQuickly = new testRunner.Spec([
-  new testRunner.Expect("variable is set to 1", function(variable) {
+<pre><code>$tr.specs.getOneQuickly = new $tr.Spec([
+  new $tr.Expect("variable is set to 1", function(variable) {
     return variable === 1;
   }),
-  new testRunner.Assert("variable is set in less than 3 seconds", 3000);
+  new $tr.Assert("variable is set in less than 3 seconds", 3000);
 ]);
 </code></pre><p>Now each button just needs to return the variable to the spec function we created.</p><p><span></p>
 
 <pre><code>// Button 1's event listener
 someVar = 1
-testRunner.specs.getOneQuickly.return(someVar);
+$tr.specs.getOneQuickly.return(someVar);
 
 // Button 2's event listener
 someVar = 2
-testRunner.specs.getOneQuickly.return(someVar);
+$tr.specs.getOneQuickly.return(someVar);
 </code></pre></main><footer class="main"><div class="wrapper"><p>Made with <a href="http://getkickstart.com">Kickstart</a></p></div></footer><script src="script.min.js"></script></body></html>
